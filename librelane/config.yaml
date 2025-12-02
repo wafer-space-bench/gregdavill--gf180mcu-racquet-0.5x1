@@ -104,7 +104,7 @@ RUN_POST_GRT_DESIGN_REPAIR: True
 
 # Increase for more logic
 # on your die
-PL_TARGET_DENSITY_PCT: 28
+PL_TARGET_DENSITY_PCT: 65
 GRT_ALLOW_CONGESTION: True
 
 # Fix antenna violations after DRT
@@ -241,36 +241,12 @@ MACROS:
       # SRAM cells 
       
       u_chip_core.gen_proc_wrapper[0].u_proc_wrapper.u_sram:
-        location: ["expr::630", "expr::500 + 2*460.85"]
+        location: ["expr::600", "expr::540 + 0*460.85"]
         orientation: W
       u_chip_core.gen_proc_wrapper[1].u_proc_wrapper.u_sram:
-        location: ["expr::630", "expr::500 + 3*460.85"]
-        orientation: W
-      u_chip_core.gen_proc_wrapper[2].u_proc_wrapper.u_sram:
-        location: ["expr::630", "expr::500 + 4*460.85"]
-        orientation: W
-      u_chip_core.gen_proc_wrapper[3].u_proc_wrapper.u_sram:
-        location: ["expr::630", "expr::500 + 5*460.85"]
-        orientation: W
-      u_chip_core.gen_proc_wrapper[4].u_proc_wrapper.u_sram:
-        location: ["expr::630", "expr::500 + 6*460.85"]
+        location: ["expr::600", "expr::1100 + 1*460.85"]
         orientation: W
 
-      u_chip_core.gen_proc_wrapper[5].u_proc_wrapper.u_sram:
-        location: [2632, "expr::500 + 7*460.85"]
-        orientation: E
-      u_chip_core.gen_proc_wrapper[6].u_proc_wrapper.u_sram:
-        location: [2632, "expr::500 + 6*460.85"]
-        orientation: E
-      u_chip_core.gen_proc_wrapper[7].u_proc_wrapper.u_sram:
-        location: [2632, "expr::500 + 5*460.85"]
-        orientation: E
-      u_chip_core.gen_proc_wrapper[8].u_proc_wrapper.u_sram:
-        location: [2632, "expr::500 + 4*460.85"]
-        orientation: E
-      u_chip_core.gen_proc_wrapper[9].u_proc_wrapper.u_sram:
-        location: [2632, "expr::500 + 3*460.85"]
-        orientation: E
 
 
 
