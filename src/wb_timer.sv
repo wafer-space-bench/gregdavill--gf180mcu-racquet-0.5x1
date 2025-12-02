@@ -147,7 +147,7 @@ module wb_timer #(
             logic [TIMER_WIDTH-1:0] cmp_timer_val;
             wire  [ 2:0] timer_ch_sel = reg_cmp_ctrl[j][10:8]; // 8 timers max
             always_comb begin
-                cmp_timer_val = {TIMER_WIDTH{'0}};
+                cmp_timer_val = {TIMER_WIDTH{1'b0}};
                 for (int i = 0; i < TIMER_NUM; i = i + 1) begin
                     if (timer_ch_sel == i) cmp_timer_val = timer_value[i];
                 end
@@ -316,14 +316,14 @@ module counter #(
 
     always_ff @(posedge clk_i or negedge rst_n) begin
         if (!rst_n) begin
-            counter <= {WIDTH{'0}};
+            counter <= {WIDTH{1'b0}};
             running <= 1'b0;
         end else begin
             if (start_i) running <= 1'b1;
             else if (stop_i) running <= 1'b0;
 
-            if (reset_i) counter <= {WIDTH{'0}};
-            else if (running) counter <= counter + {{WIDTH{'0}}, 1'b1};
+            if (reset_i) counter <= {WIDTH{1'b0}};
+            else if (running) counter <= counter + {{WIDTH{1'b0}}, 1'b1};
         end
     end
 endmodule
