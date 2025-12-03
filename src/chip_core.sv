@@ -27,11 +27,11 @@ module chip_core #(
     parameter memsize = 512;
     localparam aw = $clog2(memsize);
 
-    logic [3:0] gpio_a_alt_in[32];
-    logic [3:0] gpio_a_alt_out[32];
-    logic [3:0] gpio_a_alt_dir[32];
+    logic [1:0] gpio_a_alt_in[32];
+    logic [1:0] gpio_a_alt_out[32];
+    logic [1:0] gpio_a_alt_dir[32];
 
-    logic [1:0] gpio_a_alt[32];
+    logic [0:0] gpio_a_alt[32];
     logic [31:0] gpio_a_in;
     logic [31:0] gpio_a_out;
     logic [31:0] gpio_a_dir;
@@ -41,11 +41,11 @@ module chip_core #(
     logic [31:0] gpio_a_pd;
 
     localparam integer GPIOB_NUM = 14;
-    logic [3:0] gpio_b_alt_in[GPIOB_NUM];
-    logic [3:0] gpio_b_alt_out[GPIOB_NUM];
-    logic [3:0] gpio_b_alt_dir[GPIOB_NUM];
+    logic [1:0] gpio_b_alt_in[GPIOB_NUM];
+    logic [1:0] gpio_b_alt_out[GPIOB_NUM];
+    logic [1:0] gpio_b_alt_dir[GPIOB_NUM];
 
-    logic [1:0] gpio_b_alt[GPIOB_NUM];
+    logic [0:0] gpio_b_alt[GPIOB_NUM];
     logic [GPIOB_NUM-1:0] gpio_b_in;
     logic [GPIOB_NUM-1:0] gpio_b_out;
     logic [GPIOB_NUM-1:0] gpio_b_dir;
@@ -214,7 +214,7 @@ module chip_core #(
     );
     assign wb_resp_err[GPIOA_IDX] = '0;  // not used by peripheral
 
-    localparam logic [GPIOB_NUM*2-1:0] GPIOB_INIT_ALT = {{(GPIOB_NUM-4){2'b00}}, {4{2'b01}}};
+    localparam logic [GPIOB_NUM-1:0] GPIOB_INIT_ALT = {{(GPIOB_NUM-4){1'b0}}, {4{1'b1}}};
     // ideally this is cleaner as an unpacked array. But iverilog doesn't support unpacked array parameters:
     // error: sorry: unpacked array parameters are not supported yet
     // Create a packed array to select the the cfg_spi alt mode on reset
@@ -337,140 +337,146 @@ module chip_core #(
     assign gpio_a_in = bidir_in[31:0];
 
     // GPIO B connections to padframe
-    assign bidir_out[45:32] = gpio_b_out;
-    assign bidir_oe[45:32] = gpio_b_dir;
-    assign bidir_ie[45:32] = ~gpio_b_dir;
-    assign bidir_pd[45:32] = gpio_b_pd;
-    assign bidir_pu[45:32] = gpio_b_pu;
-    assign bidir_sl[45:32] = gpio_b_slew;
-    assign bidir_cs[45:32] = gpio_b_schmit;
-    assign gpio_b_in = bidir_in[45:32];
+    assign bidir_out[53:32] = gpio_b_out;
+    assign bidir_oe[53:32] = gpio_b_dir;
+    assign bidir_ie[53:32] = ~gpio_b_dir;
+    assign bidir_pd[53:32] = gpio_b_pd;
+    assign bidir_pu[53:32] = gpio_b_pu;
+    assign bidir_sl[53:32] = gpio_b_slew;
+    assign bidir_cs[53:32] = gpio_b_schmit;
+    assign gpio_b_in = bidir_in[53:32];
 
     // Hook up peripherals
-    assign gpio_a_alt_out[0] = {timer0_out[0], 1'b0, uart0_tx, 1'b0};
-    assign gpio_a_alt_dir[0] = {1'b1, 1'b0, 1'b1, 1'b0};
+    assign gpio_a_alt_out[0] = {timer0_out[0], 1'b0};
+    assign gpio_a_alt_dir[0] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[1] = {timer0_out[1], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[1] = {1'b1, 1'b1, 1'b0, 1'b0};
+    assign gpio_a_alt_out[1] = {timer0_out[1], 1'b0};
+    assign gpio_a_alt_dir[1] = {1'b1, 1'b1};
 
-    assign gpio_a_alt_out[2] = {timer0_out[2], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[2] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[2] = {timer0_out[2], 1'b0};
+    assign gpio_a_alt_dir[2] = {1'b1, 1'b0};
     
-    assign gpio_a_alt_out[3] = {timer0_out[3], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[3] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[3] = {timer0_out[3], 1'b0};
+    assign gpio_a_alt_dir[3] = {1'b1, 1'b0};
     
-    assign gpio_a_alt_out[4] = {timer0_out[4], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[4] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[4] = {timer0_out[4], 1'b0};
+    assign gpio_a_alt_dir[4] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[5] = {timer0_out[5], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[5] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[5] = {timer0_out[5], 1'b0};
+    assign gpio_a_alt_dir[5] = {1'b1, 1'b0};
     
-    assign gpio_a_alt_out[6] = {timer0_out[6], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[6] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[6] = {timer0_out[6], 1'b0};
+    assign gpio_a_alt_dir[6] = {1'b1, 1'b0};
     
-    assign gpio_a_alt_out[7] = {timer0_out[7], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[7] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[7] = {timer0_out[7], 1'b0};
+    assign gpio_a_alt_dir[7] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[8] = {timer0_out[0], 1'b0, uart0_tx, 1'b0};
-    assign gpio_a_alt_dir[8] = {1'b1, 1'b0, 1'b1, 1'b0};
+    assign gpio_a_alt_out[8] = {timer0_out[0], 1'b0};
+    assign gpio_a_alt_dir[8] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[9] = {timer0_out[1], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[9] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[9] = {timer0_out[1], 1'b0};
+    assign gpio_a_alt_dir[9] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[10] = {timer0_out[2], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[10] = {1'b1, 1'b0, 1'b1, 1'b0};
+    assign gpio_a_alt_out[10] = {timer0_out[2], 1'b0};
+    assign gpio_a_alt_dir[10] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[11] = {timer0_out[3], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[11] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[11] = {timer0_out[3], 1'b0};
+    assign gpio_a_alt_dir[11] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[12] = {timer0_out[4], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[12] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[12] = {timer0_out[4], 1'b0};
+    assign gpio_a_alt_dir[12] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[13] = {timer0_out[5], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[13] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[13] = {timer0_out[5], 1'b0};
+    assign gpio_a_alt_dir[13] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[14] = {timer0_out[6], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[14] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[14] = {timer0_out[6], 1'b0};
+    assign gpio_a_alt_dir[14] = {1'b1, 1'b0};
     
-    assign gpio_a_alt_out[15] = {timer0_out[7], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[15] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[15] = {timer0_out[7], 1'b0};
+    assign gpio_a_alt_dir[15] = {1'b1, 1'b0};
 
-    assign gpio_a_alt_out[16] = {timer0_out[0], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[16] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[16] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[16] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[17] = {timer0_out[1], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[17] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[17] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[17] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[18] = {timer0_out[2], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[18] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[18] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[18] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[19] = {timer0_out[3], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[19] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[19] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[19] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[20] = {timer0_out[4], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[20] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[20] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[20] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[21] = {timer0_out[5], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[21] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[21] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[21] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[22] = {timer0_out[6], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[22] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[22] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[22] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[23] = {timer0_out[7], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[23] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[23] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[23] = {1'b0, 1'b0};
 
-    assign gpio_a_alt_out[24] = {timer0_out[0], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[24] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[24] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[24] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[25] = {timer0_out[1], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[25] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[25] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[25] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[26] = {timer0_out[2], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[26] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[26] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[26] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[27] = {timer0_out[3], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[27] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[27] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[27] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[28] = {timer0_out[4], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[28] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[28] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[28] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[29] = {timer0_out[5], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[29] = {1'b1, 1'b0, 1'b0, 1'b0};
+    assign gpio_a_alt_out[29] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[29] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[30] = {timer0_out[6], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[30] = {1'b1, 1'b0, 1'b1, 1'b0};
+    assign gpio_a_alt_out[30] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[30] = {1'b0, 1'b0};
     
-    assign gpio_a_alt_out[31] = {timer0_out[7], 1'b0, 1'b0, 1'b0};
-    assign gpio_a_alt_dir[31] = {1'b1, 1'b1, 1'b0, 1'b0};
+    assign gpio_a_alt_out[31] = {1'b0, 1'b0};
+    assign gpio_a_alt_dir[31] = {1'b0, 1'b0};
 
-    assign uart0_rx = (gpio_a_alt_in[9][1] | gpio_a_alt_in[1][1]);
 
-    assign timer0_in[0] = gpio_a_alt_in[0][2] | gpio_a_alt_in[8][2] | gpio_a_alt_in[16][2] |gpio_a_alt_in[24][2];
-    assign timer0_in[1] = gpio_a_alt_in[1][2] | gpio_a_alt_in[9][2] | gpio_a_alt_in[17][2] |gpio_a_alt_in[25][2];
-    assign timer0_in[2] = gpio_a_alt_in[2][2] | gpio_a_alt_in[10][2] | gpio_a_alt_in[18][2] |gpio_a_alt_in[26][2];
-    assign timer0_in[3] = gpio_a_alt_in[3][2] | gpio_a_alt_in[11][2] | gpio_a_alt_in[19][2] |gpio_a_alt_in[27][2];
-    assign timer0_in[4] = gpio_a_alt_in[4][2] | gpio_a_alt_in[12][2] | gpio_a_alt_in[20][2] |gpio_a_alt_in[28][2];
-    assign timer0_in[5] = gpio_a_alt_in[5][2] | gpio_a_alt_in[13][2] | gpio_a_alt_in[21][2] |gpio_a_alt_in[29][2];
-    assign timer0_in[6] = gpio_a_alt_in[6][2] | gpio_a_alt_in[14][2] | gpio_a_alt_in[22][2] |gpio_a_alt_in[30][2];
-    assign timer0_in[7] = gpio_a_alt_in[7][2] | gpio_a_alt_in[15][2] | gpio_a_alt_in[23][2] |gpio_a_alt_in[31][2];
+    assign timer0_in[0] = gpio_a_alt_in[16][1] |gpio_a_alt_in[24][1];
+    assign timer0_in[1] = gpio_a_alt_in[17][1] |gpio_a_alt_in[25][1];
+    assign timer0_in[2] = gpio_a_alt_in[18][1] |gpio_a_alt_in[26][1];
+    assign timer0_in[3] = gpio_a_alt_in[19][1] |gpio_a_alt_in[27][1];
+    assign timer0_in[4] = gpio_a_alt_in[20][1] |gpio_a_alt_in[28][1];
+    assign timer0_in[5] = gpio_a_alt_in[21][1] |gpio_a_alt_in[29][1];
+    assign timer0_in[6] = gpio_a_alt_in[22][1] |gpio_a_alt_in[30][1];
+    assign timer0_in[7] = gpio_a_alt_in[23][1] |gpio_a_alt_in[31][1];
 
     genvar j;
 
-    assign gpio_b_alt_out[0] = {1'b0, 1'b0, cfg_spi_cs, 1'b0};
-    assign gpio_b_alt_dir[0] = {1'b0, 1'b0, 1'b1, 1'b0};
+    assign gpio_b_alt_out[0] = {cfg_spi_cs, 1'b0};
+    assign gpio_b_alt_dir[0] = {1'b1, 1'b0};
 
-    assign gpio_b_alt_out[1] = {1'b0, 1'b0, cfg_spi_sck, 1'b0};
-    assign gpio_b_alt_dir[1] = {1'b0, 1'b0, 1'b1, 1'b0};
+    assign gpio_b_alt_out[1] = {cfg_spi_sck, 1'b0};
+    assign gpio_b_alt_dir[1] = {1'b1, 1'b0};
 
-    assign gpio_b_alt_out[2] = {1'b0, 1'b0, cfg_spi_copi, 1'b0};
-    assign gpio_b_alt_dir[2] = {1'b0, 1'b0, 1'b1, 1'b0};
+    assign gpio_b_alt_out[2] = {cfg_spi_copi, 1'b0};
+    assign gpio_b_alt_dir[2] = {1'b1, 1'b0};
 
-    assign gpio_b_alt_out[3] = {1'b0, 1'b0, 1'b0, 1'b0};
-    assign gpio_b_alt_dir[3] = {1'b0, 1'b0, 1'b0, 1'b0};
+    assign gpio_b_alt_out[3] = {1'b0, 1'b0};
+    assign gpio_b_alt_dir[3] = {1'b0, 1'b0};
     assign cfg_spi_cipo = gpio_b_alt_in[3][1];
 
+    assign gpio_b_alt_out[4] = {uart0_tx, 1'b0};
+    assign gpio_b_alt_dir[4] = {1'b1, 1'b0};
+
+    assign gpio_b_alt_out[5] = {1'b0, 1'b0};
+    assign gpio_b_alt_dir[5] = {1'b0, 1'b0};
+    assign uart0_rx = (gpio_a_alt_in[5][1]);
+
     generate
-        for (j = 4; j < GPIOB_NUM; j = j + 1) begin : gen_gpiob_defaults
+        for (j = 6; j < GPIOB_NUM; j = j + 1) begin : gen_gpiob_defaults
             assign gpio_b_alt_out[j] = '0;
             assign gpio_b_alt_dir[j] = '0;
         end
