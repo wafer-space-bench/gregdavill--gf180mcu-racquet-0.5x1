@@ -110,6 +110,16 @@ module proc_wrapper (
         end
     end
 
+
+    logic sram_ren_reg;
+    always_ff @(posedge i_clk or negedge i_rst) begin
+        if (!i_rst) begin
+            sram_ren_reg <= 1'b0;
+        end else begin
+            sram_ren_reg <= proc_sram_ren;
+        end
+    end
+
     // FSM logic
     always_comb begin
         loader_sram_wen = 1'b0;
@@ -119,10 +129,9 @@ module proc_wrapper (
 
         next_state = state;
 
-
         // Default  SRAM to proc
         sram_addr = proc_sram_wen ? proc_sram_waddr : proc_sram_raddr;
-        sram_cen = proc_rst;
+        sram_cen = ~(proc_sram_wen | proc_sram_ren | sram_ren_reg);
         sram_wen = ~proc_sram_wen;
         sram_wdata = proc_sram_wdata;
         proc_sram_rdata = sram_rdata;
