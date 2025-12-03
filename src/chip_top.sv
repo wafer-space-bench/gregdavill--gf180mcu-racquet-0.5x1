@@ -124,9 +124,14 @@ module chip_top #(
     // Reset syncroniser
     logic rst_sync0;
     logic rst_sync1;
-    always_ff @(posedge clk_PAD2CORE) begin
-        rst_sync1 <= rst_sync0;
-        rst_sync0 <= rst_n_PAD2CORE;
+    always_ff @(posedge clk_PAD2CORE or negedge rst_n_PAD2CORE) begin
+        if(!rst_n_PAD2CORE) begin
+            rst_sync0 <= 1'b0;
+            rst_sync1 <= 1'b0;
+        end else begin
+            rst_sync0 <= rst_n_PAD2CORE;
+            rst_sync1 <= rst_sync0;
+        end
     end
 
     // Core design
