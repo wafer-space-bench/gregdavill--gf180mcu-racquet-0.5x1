@@ -54,7 +54,7 @@ module chip_core #(
     logic [GPIOB_NUM-1:0] gpio_b_pu;
     logic [GPIOB_NUM-1:0] gpio_b_pd;
 
-    localparam integer NUM_PROC_CORES = 2;
+    localparam integer NUM_PROC_CORES = 9;
     localparam integer NUM_WB_RESPONDERS = 6;
 
     localparam integer GPIOA_IDX = 0;
