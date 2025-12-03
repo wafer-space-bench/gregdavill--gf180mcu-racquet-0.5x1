@@ -40,7 +40,7 @@ module chip_core #(
     logic [31:0] gpio_a_pu;
     logic [31:0] gpio_a_pd;
 
-    localparam integer GPIOB_NUM = 14;
+    localparam integer GPIOB_NUM = 22;
     logic [1:0] gpio_b_alt_in[GPIOB_NUM];
     logic [1:0] gpio_b_alt_out[GPIOB_NUM];
     logic [1:0] gpio_b_alt_dir[GPIOB_NUM];
