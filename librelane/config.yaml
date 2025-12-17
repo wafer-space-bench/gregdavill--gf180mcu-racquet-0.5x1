@@ -267,17 +267,17 @@ MACROS:
 
 
       u_chip_core.gen_proc_wrapper[1].u_proc_wrapper.u_sram:
-        location: ["expr::1000", "expr::480 + 0.5*932"]
-        orientation: E
+        location: ["expr::500", "expr::480 + 0.5*932"]
+        orientation: W
       u_chip_core.gen_proc_wrapper[3].u_proc_wrapper.u_sram:
-        location: ["expr::1000", "expr::480 + 1.5*932"]
-        orientation: E
+        location: ["expr::500", "expr::480 + 1.5*932"]
+        orientation: W
       u_chip_core.gen_proc_wrapper[5].u_proc_wrapper.u_sram:
-        location: ["expr::1000", "expr::480 + 2.5*932"]
-        orientation: E
+        location: ["expr::500", "expr::480 + 2.5*932"]
+        orientation: W
       u_chip_core.gen_proc_wrapper[7].u_proc_wrapper.u_sram:
-        location: ["expr::1000", "expr::480 + 3.5*932"]
-        orientation: E
+        location: ["expr::500", "expr::480 + 3.5*932"]
+        orientation: W
 
 
 
