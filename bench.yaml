@@ -1,0 +1,26 @@
+source:
+  url: https://github.com/gregdavill/gf180mcu-racquet-0.5x1
+  original_url: null
+  kind: fork
+  why: GitHub fork of the upstream repository
+  licence: Apache-2.0
+  upstream_default_branch: develop
+tapeouts:
+- org: wafer.space
+  run: ws-run1
+  slot: GD02
+  project: Racquet Half r1p0 (1/2 slot)
+  size: 0p5x1
+  kind: digital
+  commit: 8c1de9c2345f
+  commit_source: design_ref head recorded by the ws-run1/2 audit
+  tag: wafer.space/ws-run1/GD02
+  branch: tapeout/wafer.space/ws-run1/GD02
+  page: https://wafer.space/ws-run1/
+generated: '2026-10-17T23:43:35Z'
+tooling: https://github.com/wafer-space/wafer.space-bench
+index: https://wafer-space-bench.github.io
+branches:
+- about
+- tapeout/wafer.space/ws-run1/GD02
+- upstream/develop
